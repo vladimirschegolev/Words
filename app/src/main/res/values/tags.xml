@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="add_desc" translatable="false">plus picture</string>
+    <string name="TAG_word_edit_fragment" translatable="false">wordeditfragment</string>
+    <string name="TAG_list_fragment" translatable="false">wordslistfragment</string>
+    <string name="TAG_train_fragment" translatable="false">trainwordfragment</string>
+    <string name="TAG_start_menu" translatable="false">startmenufragment</string>
+    <string name="TAG_reader" translatable="false">reader</string>
+    <string name="TAG_new_word">New word</string>
+
+</resources>

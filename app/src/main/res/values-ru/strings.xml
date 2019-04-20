@@ -1,0 +1,26 @@
+<resources>
+    <string name="app_name">Словарь</string>
+    <string name="add_word">Новое слово</string>
+    <string name="word_list">Список слов</string>
+    <string name="train_word">Тренировка</string>
+    <string name="open_book">Открыть книгу</string>
+    <string name="save_word">Сохранить</string>
+    <string name="load_description">Загрузить описания</string>
+    <string name="delete">Удалить</string>
+    <string name="text_default">По умолчанию</string>
+    <string name="settings">Настройки</string>
+    <string name="text_russian_description">Русский перевод:</string>
+    <string name="text_english_description">Английское определение:</string>
+    <string name="text_word">Слово:</string>
+    <string name="common">Общие</string>
+    <string name="language">Язык</string>
+    <string name="training">Тренировка</string>
+    <string name="train_font_size">Размер шрифта в тренировке</string>
+    <string name="list_font_size">Размер шрифта в списке</string>
+    <string name="description">Язык</string>
+    <string name="num_descriptions">Размер списка в тренировке</string>
+    <string name="reader_settings">Читалка</string>
+    <string name="reader_font_size">Размер шрифта</string>
+
+    <string name="TAG_new_word">Новое слово</string>
+</resources>

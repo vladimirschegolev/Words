@@ -1,0 +1,25 @@
+<resources>
+    <string name="app_name">Words</string>
+    <string name="add_word">Add word</string>
+    <string name="word_list">Word List</string>
+    <string name="train_word">Train word</string>
+    <string name="open_book">Open book</string>
+    <string name="save_word">Save</string>
+    <string name="load_description">Load description</string>
+    <string name="delete">Delete</string>
+    <string name="text_default">Default</string>
+    <string name="settings">Settings</string>
+    <string name="text_word">Word:</string>
+    <string name="text_russian_description">Russian description:</string>
+    <string name="text_english_description">English description:</string>
+    <string name="common">Common</string>
+    <string name="language">Language</string>
+    <string name="training">Training</string>
+    <string name="train_font_size">Training font size</string>
+    <string name="list_font_size">List font size</string>
+    <string name="description">Choose descriptions</string>
+    <string name="num_descriptions">Choose number of descriptions</string>
+    <string name="reader_settings">Reader</string>
+    <string name="reader_font_size">Font size</string>
+
+</resources>
