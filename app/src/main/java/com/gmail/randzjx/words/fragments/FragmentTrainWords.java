@@ -14,15 +14,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.gmail.randzjx.words.R;
 import com.gmail.randzjx.words.database.Word;
 import com.gmail.randzjx.words.database.WordsContentProvider;
 import com.gmail.randzjx.words.database.WordsDbSchema.WordsTable.Columns;
 import com.gmail.randzjx.words.database.helper.Adapter;
-
-import java.util.Objects;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -63,6 +60,10 @@ public class FragmentTrainWords extends Fragment implements View.OnClickListener
     }
 
     private void updateUI() {
+        if (words == null) {
+            wordTextView.setText(getString(R.string.text_add_words));
+            return;
+        }
         wordTextView.setText(words[0].getWord());
         if (descriptions == null) {
             descriptions = new TextView[words.length];
@@ -72,7 +73,7 @@ public class FragmentTrainWords extends Fragment implements View.OnClickListener
             }
         }
         SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(mContext);
-        String desc = pref.getString("description", "first");
+        boolean desc = pref.getBoolean(getString(R.string.pref_description), true);
         layout.removeAllViews();
         for (int i = 0, k = (int) (Math.random() * words.length); i < words.length; i++, k++) {
             if (k == words.length) k = 0;
@@ -81,7 +82,7 @@ public class FragmentTrainWords extends Fragment implements View.OnClickListener
             } else {
                 descriptions[k].setBackgroundColor(Color.rgb(22, 22, 22));
             }
-            if ("first".equals(desc)) {
+            if (desc) {
                 descriptions[k].setText(words[k].getFirstDescription());
             } else {
                 descriptions[k].setText(words[k].getSecondDescription());
@@ -92,7 +93,7 @@ public class FragmentTrainWords extends Fragment implements View.OnClickListener
 
     private void getDescriptions() {
         if (words == null) {
-            String num = PreferenceManager.getDefaultSharedPreferences(mContext).getString("num_descriptions", "4");
+            int num = PreferenceManager.getDefaultSharedPreferences(mContext).getInt(getString(R.string.pref_train_size), 3);
             ContentResolver cr = mContext.getContentResolver();
             Cursor cursor = cr.query(Uri.withAppendedPath(WordsContentProvider.CONTENT_URI, "training/" + num), null, null, null, null);
             if (cursor == null) return;
@@ -104,10 +105,9 @@ public class FragmentTrainWords extends Fragment implements View.OnClickListener
 
     private TextView getNewTextView() {
         SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(mContext);
-        int size = Integer.parseInt(Objects.requireNonNull(pref.getString("training_font_size", "10")));
         TextView out = new TextView(mContext);
         out.setGravity(Gravity.CENTER);
-        out.setTextSize(TypedValue.COMPLEX_UNIT_SP, size);
+        out.setTextSize(TypedValue.COMPLEX_UNIT_SP, pref.getInt(getString(R.string.pref_train_font_size), 20));
         out.setPadding(15, 15, 15, 15);
         return out;
     }
@@ -134,10 +134,10 @@ public class FragmentTrainWords extends Fragment implements View.OnClickListener
         if (!pick) {
             ContentResolver cr = mContext.getContentResolver();
             if (v == descriptions[0]) {
-                Toast.makeText(mContext, "right", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(mContext, "right", Toast.LENGTH_SHORT).show();
                 words[0].guessed();
             } else {
-                Toast.makeText(mContext, "wrong", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(mContext, "wrong", Toast.LENGTH_SHORT).show();
                 v.setBackgroundColor(Color.rgb(99, 11, 11));
                 words[0].addTry();
             }

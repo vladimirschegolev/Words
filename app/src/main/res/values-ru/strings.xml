@@ -15,12 +15,23 @@
     <string name="common">Общие</string>
     <string name="language">Язык</string>
     <string name="training">Тренировка</string>
-    <string name="train_font_size">Размер шрифта в тренировке</string>
-    <string name="list_font_size">Размер шрифта в списке</string>
-    <string name="description">Язык</string>
-    <string name="num_descriptions">Размер списка в тренировке</string>
+    <string name="train_font_size">Размер шрифта в тренировке %d</string>
+    <string name="list_font_size">Размер шрифта в списке %d</string>
+    <string name="description1">Английский язык</string>
+    <string name="description2">Русский язык</string>
+    <string name="train_size">Размер списка в тренировке %d</string>
     <string name="reader_settings">Читалка</string>
     <string name="reader_font_size">Размер шрифта</string>
 
+    <string name="title_activity_main2">Main2Activity</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Android Studio</string>
+    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
+
     <string name="TAG_new_word">Новое слово</string>
+    <string name="reader">Книги</string>
+    <string name="text_add_words">Добавьте слова</string>
 </resources>

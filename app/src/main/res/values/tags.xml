@@ -2,10 +2,15 @@
 <resources>
     <string name="add_desc" translatable="false">plus picture</string>
     <string name="TAG_word_edit_fragment" translatable="false">wordeditfragment</string>
-    <string name="TAG_list_fragment" translatable="false">wordslistfragment</string>
+    <string name="TAG_word_list_fragment" translatable="false">wordslistfragment</string>
     <string name="TAG_train_fragment" translatable="false">trainwordfragment</string>
     <string name="TAG_start_menu" translatable="false">startmenufragment</string>
-    <string name="TAG_reader" translatable="false">reader</string>
+    <string name="TAG_reader_fragment" translatable="false">reader</string>
     <string name="TAG_new_word">New word</string>
+    <string name="TAG_preference_fragment" translatable="false">tagpreference</string>
 
+    <string name="pref_train_size" translatable="false">trainsize</string>
+    <string name="pref_train_font_size" translatable="false">trainfontsize</string>
+    <string name="pref_list_font_size" translatable="false">listfontsize</string>
+    <string name="pref_description" translatable="false">desc</string>
 </resources>

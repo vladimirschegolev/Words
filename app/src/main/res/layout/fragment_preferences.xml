@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                android:text="Common" />
+
+            <Switch
+                android:id="@+id/switch_theme"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                android:text="Night theme" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                android:text="Training" />
+
+            <TextView
+                android:id="@+id/tv_train_size"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:gravity="center_horizontal"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                android:text="@string/list_font_size" />
+
+            <SeekBar
+                android:id="@+id/sb_train_size"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:max="4"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                android:progress="1" />
+
+            <TextView
+                android:id="@+id/tv_train_font_size"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:gravity="center_horizontal"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                android:text="TextView"
+                tools:text="@string/train_font_size" />
+
+            <SeekBar
+                android:id="@+id/sb_train_font_size"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:max="20"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                android:progress="10" />
+
+            <TextView
+                android:id="@+id/tv_list_font_size"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:gravity="center_horizontal"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                android:text="@string/list_font_size" />
+
+            <SeekBar
+                android:id="@+id/sb_list_font_size"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:max="20"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                android:progress="10" />
+
+            <Switch
+                android:id="@+id/desc_lang"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:checked="false"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                android:text="Language" />
+
+
+
+
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>

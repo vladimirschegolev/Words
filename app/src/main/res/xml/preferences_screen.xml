@@ -28,13 +28,13 @@
             android:entryValues="@array/descriptions_values"
             android:defaultValue="first"
             android:key="description"
-            android:title="@string/description"/>
+            android:title="@string/description1"/>
         <ListPreference
             android:entries="@array/num_desc"
             android:entryValues="@array/num_desc"
             android:defaultValue="4"
             android:key="num_descriptions"
-            android:title="@string/num_descriptions"/>
+            android:title="@string/train_size"/>
     </PreferenceCategory>
     <!--<PreferenceCategory-->
         <!--android:key="reader_settings"-->

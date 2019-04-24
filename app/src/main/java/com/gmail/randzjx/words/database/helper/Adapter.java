@@ -37,6 +37,7 @@ public class Adapter {
     }
 
     public static Word[] getWords(Cursor cursor) {
+        if (cursor.getCount() == 0) return null;
         cursor.moveToFirst();
         Word[] words = new Word[cursor.getCount()];
         for (int i = 0; i < words.length; i++, cursor.moveToNext()) {

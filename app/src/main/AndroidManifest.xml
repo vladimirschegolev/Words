@@ -20,25 +20,8 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".activity.ActivityReader">
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
-
-                <category android:name="android.intent.category.BROWSABLE" />
-                <category android:name="android.intent.category.DEFAULT" />
-
-                <data
-                    android:mimeType="application/fb2"
-                    android:host="*"
-                    android:pathPattern=".*\\.fb2"
-                    android:scheme="file" />
-            </intent-filter>
-        </activity>
-        <activity android:name=".activity.ActivityPreferences" />
-        <activity android:name=".activity.ActivityWordEditPager" />
-
         <provider
-            android:name="com.gmail.randzjx.words.database.WordsContentProvider"
+            android:name=".database.WordsContentProvider"
             android:authorities="com.gmail.randzjx.words.database.WordsContentProvider"
             android:exported="false" />
     </application>

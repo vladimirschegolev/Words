@@ -1,7 +1,6 @@
 package com.gmail.randzjx.words.fragments;
 
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.Bundle;
@@ -13,7 +12,6 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.gmail.randzjx.words.R;
-import com.gmail.randzjx.words.activity.ActivityWordEditPager;
 import com.gmail.randzjx.words.database.WordsContentProvider;
 import com.gmail.randzjx.words.database.WordsDbSchema.WordsTable.Columns;
 
@@ -68,22 +66,23 @@ public class FragmentWordList extends Fragment implements LoaderManager.LoaderCa
 
     private void initLis() {
         brnAdd.setOnClickListener(v -> {
-//            FragmentActivity fa = getActivity();
-//            if (fa != null) {
-//                Fragment fragment = fa.getSupportFragmentManager().findFragmentByTag(getString(R.string.TAG_word_edit_fragment));
-//                if (fragment == null) {
-//                    fragment = new FragmentWordEdit();
-//                    fa.getSupportFragmentManager().beginTransaction()
-//                            .replace(R.id.fragment_container, fragment, getString(R.string.TAG_word_edit_fragment))
-//                            .addToBackStack(null)
-//                            .commit();
-//                }
-//            }
-            Intent intent = new Intent(getActivity(), ActivityWordEditPager.class);
-            intent.putExtra("wordkey", getString(R.string.TAG_new_word));
-            startActivity(intent);
+            startEdit(getString(R.string.TAG_new_word));
         });
     }
+
+    private void startEdit(String word) {
+        if (getFragmentManager() != null) {
+            Fragment fragment = getFragmentManager().findFragmentByTag(getString(R.string.TAG_word_edit_fragment));
+            if (fragment == null) {
+                fragment = FragmentPager.getInstance(word);
+                getFragmentManager().beginTransaction()
+                        .replace(R.id.fragment_container, fragment, getString(R.string.TAG_word_edit_fragment))
+                        .addToBackStack(null)
+                        .commit();
+            }
+        }
+    }
+
 
     @Override
     public void onResume() {
@@ -116,9 +115,7 @@ public class FragmentWordList extends Fragment implements LoaderManager.LoaderCa
             super(inflater.inflate(R.layout.word_list_item, parent, false));
             text = itemView.findViewById(R.id.text_view_item);
             SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(mContext);
-            String size = pref.getString("list_font_size", "14");
-            if (size != null)
-                text.setTextSize(TypedValue.COMPLEX_UNIT_SP, Float.parseFloat(size));
+            text.setTextSize(TypedValue.COMPLEX_UNIT_SP, pref.getInt(getString(R.string.pref_list_font_size), 20));
         }
     }
 
@@ -136,22 +133,7 @@ public class FragmentWordList extends Fragment implements LoaderManager.LoaderCa
             }
         }
 
-        private void startEdit(String word) {
-//            FragmentActivity fa = FragmentWordList.this.getActivity();
-//            if (fa != null) {
-//                Fragment fragment = fa.getSupportFragmentManager().findFragmentByTag(getString(R.string.TAG_word_edit_fragment));
-//                if (fragment == null) {
-//                    fragment = FragmentWordEdit.getInstance(word);
-//                    fa.getSupportFragmentManager().beginTransaction()
-//                            .replace(R.id.fragment_container, fragment, getString(R.string.TAG_word_edit_fragment))
-//                            .addToBackStack(null)
-//                            .commit();
-//                }
-//            }
-            Intent intent = new Intent(getActivity(), ActivityWordEditPager.class);
-            intent.putExtra("wordkey", word);
-            startActivity(intent);
-        }
+
 
         @NonNull
         @Override

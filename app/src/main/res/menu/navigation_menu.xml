@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/menu_train"
+            android:icon="@android:drawable/ic_menu_help"
+            android:title="@string/training" />
+        <item
+            android:id="@+id/menu_word_list"
+            android:icon="@android:drawable/ic_menu_search"
+            android:title="@string/word_list" />
+        <item
+            android:id="@+id/menu_preference"
+            android:icon="@android:drawable/ic_menu_preferences"
+            android:title="@string/settings" />
+        <item
+            android:id="@+id/menu_reader"
+            android:icon="@android:drawable/ic_input_get"
+            android:title="@string/reader" />
+    </group>
+
+</menu>

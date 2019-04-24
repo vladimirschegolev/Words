@@ -40,15 +40,19 @@ public class FragmentWordEdit extends Fragment implements View.OnClickListener {
     public static final int NEW = 2;
 
     private static final String WORD_KEY = "wordkey";
+    private static final String TV_WORD_KEY = "tvwordkey";
+    private static final String TV_FIRST_KEY = "tvfirstkey";
+    private static final String TV_SECOND_KEY = "tvsecondkey";
+
     private Button paste, loadDescription, save, delete, addNew;
     private EditText tWord, tDescriptionFirst, tDescriptionSecond;
     private LinearLayout lAlternative;
     private String wordKey;
     private Context mContext;
     private View view;
-    private Callbacks mCallbacks;
+    private CallbackWordEdit mCallback;
 
-    public static Fragment getInstance(String wordKey) {
+    public static FragmentWordEdit getInstance(String wordKey) {
         FragmentWordEdit fragment = new FragmentWordEdit();
         Bundle bundle = new Bundle();
         bundle.putString(WORD_KEY, wordKey);
@@ -59,7 +63,6 @@ public class FragmentWordEdit extends Fragment implements View.OnClickListener {
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
-        mCallbacks = (Callbacks) context;
         mContext = context;
     }
 
@@ -73,7 +76,6 @@ public class FragmentWordEdit extends Fragment implements View.OnClickListener {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-
         view = inflater.inflate(R.layout.fragment_word_edit, container, false);
 
         tWord = view.findViewById(R.id.word);
@@ -86,6 +88,8 @@ public class FragmentWordEdit extends Fragment implements View.OnClickListener {
         tDescriptionFirst = view.findViewById(R.id.text_description_first);
         tDescriptionSecond = view.findViewById(R.id.text_description_second);
 
+        initWordKey();
+
         initLis();
 
         return view;
@@ -94,22 +98,41 @@ public class FragmentWordEdit extends Fragment implements View.OnClickListener {
     @Override
     public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
         super.onViewStateRestored(savedInstanceState);
-        Bundle args = getArguments();
-        if (args == null) return;
-        wordKey = args.getString(WORD_KEY);
-        tWord.setText(wordKey);
-        if (wordKey.equals(getString(R.string.TAG_new_word))) return;
-        ContentResolver cr = mContext.getContentResolver();
-        Cursor cursor = cr.query(WordsContentProvider.CONTENT_URI, null, Columns.WORD_ID + "=?", new String[]{wordKey}, null);
-        if (cursor == null || cursor.getCount() == 0) return;
-        Word word = Adapter.getWord(cursor);
-        cursor.close();
-        tDescriptionFirst.setText(word.getFirstDescription());
-        tDescriptionSecond.setText(word.getSecondDescription());
+
+        if (savedInstanceState != null) {
+            wordKey = savedInstanceState.getString(WORD_KEY);
+            tWord.setText(savedInstanceState.getString(TV_WORD_KEY));
+            tDescriptionFirst.setText(savedInstanceState.getString(TV_FIRST_KEY));
+            tDescriptionSecond.setText(savedInstanceState.getString(TV_SECOND_KEY));
+        }
+    }
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putString(WORD_KEY, wordKey);
+        outState.putString(TV_WORD_KEY, tWord.getText().toString());
+        outState.putString(TV_FIRST_KEY, tDescriptionFirst.getText().toString());
+        outState.putString(TV_SECOND_KEY, tDescriptionSecond.getText().toString());
+    }
+
+    private void initWordKey() {
+        if (wordKey == null && getArguments() != null && getArguments().containsKey(WORD_KEY)) {
+            wordKey = getArguments().getString(WORD_KEY);
+            Log.d("args", "wordkey " + String.valueOf(wordKey));
+            tWord.setText(wordKey);
+            if (wordKey.equals(getString(R.string.TAG_new_word))) return;
+            ContentResolver cr = mContext.getContentResolver();
+            Cursor cursor = cr.query(WordsContentProvider.CONTENT_URI, null, Columns.WORD_ID + "=?", new String[]{wordKey}, null);
+            if (cursor == null || cursor.getCount() == 0) return;
+            Word word = Adapter.getWord(cursor);
+            cursor.close();
+            tDescriptionFirst.setText(word.getFirstDescription());
+            tDescriptionSecond.setText(word.getSecondDescription());
+        }
     }
 
     private void initLis() {
-
         paste.setOnClickListener(v -> {
             ClipboardManager clipboard = (ClipboardManager) mContext.getSystemService(CLIPBOARD_SERVICE);
             if (clipboard.hasPrimaryClip() && clipboard.getPrimaryClipDescription().hasMimeType(MIMETYPE_TEXT_PLAIN)) {
@@ -127,31 +150,23 @@ public class FragmentWordEdit extends Fragment implements View.OnClickListener {
 
 
         save.setOnClickListener(v -> {
-            save();
+            if (save() && mCallback != null)
+                mCallback.actionPerformed(null, UPDATE);
+
             hideKeyboard();
-
-//            if (getFragmentManager() != null)
-//                getFragmentManager().popBackStack();
-
         });
 
         delete.setOnClickListener(v -> {
-            if (!"".equals(wordKey)) {
+            if (!getString(R.string.TAG_new_word).equals(wordKey)) {
                 mContext.getContentResolver().delete(WordsContentProvider.CONTENT_URI, Columns.WORD_ID + " = ?", new String[]{wordKey});
-                mCallbacks.actionPerformed(wordKey, DELETE);
+                if (mCallback != null) mCallback.actionPerformed(wordKey, DELETE);
             }
             hideKeyboard();
-
-
-
-//            if (getFragmentManager() != null)
-//                getFragmentManager().popBackStack();
         });
 
         addNew.setOnClickListener(v -> {
             save();
-            clear();
-            mCallbacks.actionPerformed(null, NEW);
+            if (mCallback != null) mCallback.actionPerformed(null, NEW);
         });
     }
 
@@ -162,7 +177,7 @@ public class FragmentWordEdit extends Fragment implements View.OnClickListener {
         tDescriptionSecond.setText("");
     }
 
-    private void save() {
+    private boolean save() {
         if (!tWord.getText().toString().equals("") && !tWord.getText().toString().equals(getString(R.string.TAG_new_word))) {
             Word word = new Word();
             word.setWord(tWord.getText().toString().toLowerCase());
@@ -172,17 +187,16 @@ public class FragmentWordEdit extends Fragment implements View.OnClickListener {
             ContentResolver cr = mContext.getContentResolver();
             if (wordKey == null || wordKey.equals(getString(R.string.TAG_new_word))) {
                 cr.insert(WordsContentProvider.CONTENT_URI, Adapter.getContentValues(word));
-                mCallbacks.actionPerformed(word.getWord(), NEW);
             } else if (wordKey.equals(word.getWord())) {
                 cr.update(WordsContentProvider.CONTENT_URI, Adapter.getContentValues(word), Columns.WORD_ID + " = ?", new String[]{wordKey});
-                mCallbacks.actionPerformed(word.getWord(), UPDATE);
             } else {
                 cr.delete(WordsContentProvider.CONTENT_URI, Columns.WORD_ID + " = ?", new String[]{wordKey});
                 cr.insert(WordsContentProvider.CONTENT_URI, Adapter.getContentValues(word));
-                mCallbacks.actionPerformed(word.getWord(), UPDATE);
             }
             wordKey = word.getWord();
+            return true;
         }
+        return false;
     }
 
     private void hideKeyboard() {
@@ -196,6 +210,11 @@ public class FragmentWordEdit extends Fragment implements View.OnClickListener {
     @Override
     public void onClick(View v) {
         tWord.setText(((TextView) v).getText());
+    }
+
+    public FragmentWordEdit setCallback(CallbackWordEdit callback) {
+        this.mCallback = callback;
+        return this;
     }
 
     private static class LoadTranslation extends AsyncTask<String, Void, Translation> {
@@ -243,7 +262,7 @@ public class FragmentWordEdit extends Fragment implements View.OnClickListener {
         }
     }
 
-    public interface Callbacks {
+    public interface CallbackWordEdit {
         void actionPerformed(String wordkey, int ACTION);
     }
 }
