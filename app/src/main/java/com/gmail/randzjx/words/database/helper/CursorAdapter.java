@@ -12,7 +12,7 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
-public class Adapter {
+public class CursorAdapter {
 
     public static Word getWord(Cursor cursor) {
         cursor.moveToFirst();

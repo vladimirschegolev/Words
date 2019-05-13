@@ -22,7 +22,8 @@ public class FragmentPreference extends Fragment {
     private SharedPreferences pref;
     private SeekBar sbListFontSize, sbTrainFontSize, sbTrainSize;
     private TextView tvListFontSize, tvTrainFontSize, tvTrainSize;
-    private Switch language;
+    private Switch language, theme;
+
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
@@ -44,6 +45,7 @@ public class FragmentPreference extends Fragment {
         tvListFontSize = v.findViewById(R.id.tv_list_font_size);
 
         language = v.findViewById(R.id.desc_lang);
+        theme = v.findViewById(R.id.switch_theme);
 
         loadPref();
         initLis();
@@ -52,9 +54,9 @@ public class FragmentPreference extends Fragment {
     }
 
     private void loadPref() {
-        sbTrainSize.setProgress(pref.getInt(getString(R.string.pref_train_size),3) - 2);
-        sbTrainFontSize.setProgress(pref.getInt(getString(R.string.pref_train_font_size),20) - 10);
-        sbListFontSize.setProgress(pref.getInt(getString(R.string.pref_list_font_size),20) - 10);
+        sbTrainSize.setProgress(pref.getInt(getString(R.string.pref_train_size), 3) - 2);
+        sbTrainFontSize.setProgress(pref.getInt(getString(R.string.pref_train_font_size), 20) - 10);
+        sbListFontSize.setProgress(pref.getInt(getString(R.string.pref_list_font_size), 20) - 10);
 
         language.setChecked(pref.getBoolean(getString(R.string.pref_description), true));
         if (language.isChecked()) {
@@ -62,15 +64,17 @@ public class FragmentPreference extends Fragment {
         } else {
             language.setText(getText(R.string.description2));
         }
+
+        theme.setChecked(pref.getBoolean(getString(R.string.pref_night_theme), true));
     }
 
     private void initLis() {
         sbTrainSize.setOnSeekBarChangeListener(
-                new BarListener(sbTrainSize.getProgress(),2, getString(R.string.train_size), tvTrainSize, getString(R.string.pref_train_size)));
+                new BarListener(sbTrainSize.getProgress(), 2, getString(R.string.train_size), tvTrainSize, getString(R.string.pref_train_size)));
         sbTrainFontSize.setOnSeekBarChangeListener(
-                new BarListener(sbTrainFontSize.getProgress(),10, getString(R.string.train_font_size), tvTrainFontSize, getString(R.string.pref_train_font_size)));
+                new BarListener(sbTrainFontSize.getProgress(), 10, getString(R.string.train_font_size), tvTrainFontSize, getString(R.string.pref_train_font_size)));
         sbListFontSize.setOnSeekBarChangeListener(
-                new BarListener(sbListFontSize.getProgress(),10, getString(R.string.list_font_size), tvListFontSize, getString(R.string.pref_list_font_size)));
+                new BarListener(sbListFontSize.getProgress(), 10, getString(R.string.list_font_size), tvListFontSize, getString(R.string.pref_list_font_size)));
 
         language.setOnCheckedChangeListener((buttonView, isChecked) -> {
             pref.edit().putBoolean(getString(R.string.pref_description), isChecked).apply();
@@ -81,6 +85,16 @@ public class FragmentPreference extends Fragment {
             }
         });
 
+        theme.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            pref.edit().putBoolean(getString(R.string.pref_night_theme), isChecked).apply();
+            restart();
+        });
+
+
+    }
+
+    private void restart() {
+        if (getActivity() != null) getActivity().recreate();
     }
 
     private class BarListener implements SeekBar.OnSeekBarChangeListener {

@@ -11,7 +11,7 @@ import android.view.ViewGroup;
 import com.gmail.randzjx.words.R;
 import com.gmail.randzjx.words.database.WordsContentProvider;
 import com.gmail.randzjx.words.database.WordsDbSchema;
-import com.gmail.randzjx.words.database.helper.Adapter;
+import com.gmail.randzjx.words.database.helper.CursorAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -134,7 +134,7 @@ public class FragmentPager extends Fragment implements LoaderManager.LoaderCallb
     @Override
     public void onLoadFinished(@NonNull Loader<Cursor> loader, Cursor data) {
         if (data != null) {
-            wordKeys = Adapter.toList(data);
+            wordKeys = CursorAdapter.toList(data);
         } else {
             if (wordKeys == null) wordKeys = new ArrayList<>();
         }
@@ -165,8 +165,8 @@ public class FragmentPager extends Fragment implements LoaderManager.LoaderCallb
                 break;
             case FragmentWordEdit.NEW:
                 currentWord = getString(R.string.TAG_new_word);
-                wordKeys.remove(currentWord);
-                wordKeys.add(mViewPager.getCurrentItem(), currentWord);
+//                wordKeys.remove(currentWord);
+//                wordKeys.add(mViewPager.getCurrentItem(), currentWord);
 //                update();
 //                break;
             case FragmentWordEdit.UPDATE:

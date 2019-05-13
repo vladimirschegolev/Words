@@ -3,8 +3,8 @@ package com.gmail.randzjx.words.fragments;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.res.Resources;
 import android.database.Cursor;
-import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.TypedValue;
@@ -19,7 +19,7 @@ import com.gmail.randzjx.words.R;
 import com.gmail.randzjx.words.database.Word;
 import com.gmail.randzjx.words.database.WordsContentProvider;
 import com.gmail.randzjx.words.database.WordsDbSchema.WordsTable.Columns;
-import com.gmail.randzjx.words.database.helper.Adapter;
+import com.gmail.randzjx.words.database.helper.CursorAdapter;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -36,12 +36,18 @@ public class FragmentTrainWords extends Fragment implements View.OnClickListener
     private long time;
     private boolean pick;
     private Context mContext;
+    private TypedValue right, wrong;
 
 
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
         mContext = context;
+        right = new TypedValue();
+        wrong = new TypedValue();
+        Resources.Theme theme = context.getTheme();
+        theme.resolveAttribute(R.attr.back_color_right, right, true);
+        theme.resolveAttribute(R.attr.back_color_wrong, wrong, true);
     }
 
     @Override
@@ -78,9 +84,9 @@ public class FragmentTrainWords extends Fragment implements View.OnClickListener
         for (int i = 0, k = (int) (Math.random() * words.length); i < words.length; i++, k++) {
             if (k == words.length) k = 0;
             if (i % 2 == 0) {
-                descriptions[k].setBackgroundColor(Color.rgb(33, 33, 33));
+                descriptions[k].setBackgroundResource(R.drawable.text_field);
             } else {
-                descriptions[k].setBackgroundColor(Color.rgb(22, 22, 22));
+                descriptions[k].setBackgroundResource(R.drawable.text_field2);
             }
             if (desc) {
                 descriptions[k].setText(words[k].getFirstDescription());
@@ -97,7 +103,7 @@ public class FragmentTrainWords extends Fragment implements View.OnClickListener
             ContentResolver cr = mContext.getContentResolver();
             Cursor cursor = cr.query(Uri.withAppendedPath(WordsContentProvider.CONTENT_URI, "training/" + num), null, null, null, null);
             if (cursor == null) return;
-            words = Adapter.getWords(cursor);
+            words = CursorAdapter.getWords(cursor);
         }
         updateUI();
 
@@ -138,11 +144,11 @@ public class FragmentTrainWords extends Fragment implements View.OnClickListener
                 words[0].guessed();
             } else {
 //                Toast.makeText(mContext, "wrong", Toast.LENGTH_SHORT).show();
-                v.setBackgroundColor(Color.rgb(99, 11, 11));
+                v.setBackgroundColor(wrong.data);
                 words[0].addTry();
             }
-            descriptions[0].setBackgroundColor(Color.rgb(11, 99, 11));
-            cr.update(WordsContentProvider.CONTENT_URI, Adapter.getContentValues(words[0]), Columns.WORD_ID + "=?", new String[]{words[0].getWord()});
+            descriptions[0].setBackgroundColor(right.data);
+            cr.update(WordsContentProvider.CONTENT_URI, CursorAdapter.getContentValues(words[0]), Columns.WORD_ID + "=?", new String[]{words[0].getWord()});
             pick = true;
             time = System.currentTimeMillis();
         } else if (System.currentTimeMillis() - time > 1000) {

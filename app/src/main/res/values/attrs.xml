@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <attr name="textColor" format="reference"/>
+    <attr name="button_color" format="reference" />
+    <attr name="background_solid" format="reference" />
+    <attr name="background_solid2" format="reference" />
+    <attr name="gradient_start" format="reference" />
+    <attr name="gradient_end" format="reference" />
+    <attr name="toolbar_color" format="reference" />
+    <attr name="back_color_right" format="reference" />
+    <attr name="back_color_wrong" format="reference" />
+</resources>

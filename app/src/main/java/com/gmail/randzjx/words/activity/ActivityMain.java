@@ -1,11 +1,11 @@
 package com.gmail.randzjx.words.activity;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.MenuItem;
 
 import com.gmail.randzjx.words.R;
 import com.gmail.randzjx.words.fragments.FragmentPreference;
-import com.gmail.randzjx.words.fragments.FragmentReader;
 import com.gmail.randzjx.words.fragments.FragmentTrainWords;
 import com.gmail.randzjx.words.fragments.FragmentWordList;
 import com.google.android.material.navigation.NavigationView;
@@ -18,6 +18,7 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+import androidx.preference.PreferenceManager;
 
 public class ActivityMain extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -28,6 +29,9 @@ public class ActivityMain extends AppCompatActivity implements NavigationView.On
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        setTheme();
+
         setContentView(R.layout.activity_main);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -40,6 +44,14 @@ public class ActivityMain extends AppCompatActivity implements NavigationView.On
 
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+    }
+
+    private void setTheme() {
+        SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        boolean night = pref.getBoolean(getString(R.string.pref_night_theme), true);
+
+        if (night) setTheme(R.style.DarkTheme);
+        else setTheme(R.style.LightTheme);
     }
 
     @Override
@@ -94,15 +106,15 @@ public class ActivityMain extends AppCompatActivity implements NavigationView.On
                             .commit();
                 }
                 break;
-            case R.id.menu_reader:
-                fragment = fm.findFragmentByTag(getString(R.string.TAG_reader_fragment));
-                if (fragment == null) {
-                    fragment = new FragmentReader();
-                    fm.beginTransaction()
-                            .replace(R.id.fragment_container, fragment, getString(R.string.TAG_reader_fragment))
-                            .commit();
-                }
-                break;
+//            case R.id.menu_reader:
+//                fragment = fm.findFragmentByTag(getString(R.string.TAG_reader_fragment));
+//                if (fragment == null) {
+//                    fragment = new FragmentReader();
+//                    fm.beginTransaction()
+//                            .replace(R.id.fragment_container, fragment, getString(R.string.TAG_reader_fragment))
+//                            .commit();
+//                }
+//                break;
         }
     }
 
@@ -116,7 +128,7 @@ public class ActivityMain extends AppCompatActivity implements NavigationView.On
         }
     }
 
-    @SuppressWarnings("StatementWithEmptyBody")
+
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         fragmentID = item.getItemId();

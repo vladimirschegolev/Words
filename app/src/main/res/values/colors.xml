@@ -1,2 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources></resources>
+<resources>
+    <color name="text_back_dark">#202020</color>
+    <color name="button_color_dark">#202020</color>
+    <color name="background_solid_dark">#252525</color>
+    <color name="background_solid2_dark">#424242</color>
+    <color name="gradient_start_dark">#555555</color>
+    <color name="gradient_end_dark">#222222</color>
+    <color name="toolbar_color_dark">#152075</color>
+    <color name="back_color_right_dark">#177C00</color>
+    <color name="back_color_wrong_dark">#770000</color>
+
+    <color name="text_back_light">#dddddd</color>
+    <color name="button_color_light">#dddddd</color>
+    <color name="background_solid_light">#dddddd</color>
+    <color name="background_solid2_light">#FAFAFA</color>
+    <color name="gradient_start_light">#EBDFD3</color>
+    <color name="gradient_end_light">#DAD7D1</color>
+    <color name="toolbar_color_light">#FFD405</color>
+    <color name="back_color_right_light">#AEFF9E</color>
+    <color name="back_color_wrong_light">#FF8686</color>
+</resources>

@@ -21,7 +21,7 @@ import com.gmail.randzjx.words.R;
 import com.gmail.randzjx.words.database.Word;
 import com.gmail.randzjx.words.database.WordsContentProvider;
 import com.gmail.randzjx.words.database.WordsDbSchema.WordsTable.Columns;
-import com.gmail.randzjx.words.database.helper.Adapter;
+import com.gmail.randzjx.words.database.helper.CursorAdapter;
 import com.gmail.randzjx.words.translator.Translation;
 
 import java.lang.ref.WeakReference;
@@ -120,12 +120,12 @@ public class FragmentWordEdit extends Fragment implements View.OnClickListener {
         if (wordKey == null && getArguments() != null && getArguments().containsKey(WORD_KEY)) {
             wordKey = getArguments().getString(WORD_KEY);
             Log.d("args", "wordkey " + String.valueOf(wordKey));
-            tWord.setText(wordKey);
             if (wordKey.equals(getString(R.string.TAG_new_word))) return;
+            tWord.setText(wordKey);
             ContentResolver cr = mContext.getContentResolver();
             Cursor cursor = cr.query(WordsContentProvider.CONTENT_URI, null, Columns.WORD_ID + "=?", new String[]{wordKey}, null);
             if (cursor == null || cursor.getCount() == 0) return;
-            Word word = Adapter.getWord(cursor);
+            Word word = CursorAdapter.getWord(cursor);
             cursor.close();
             tDescriptionFirst.setText(word.getFirstDescription());
             tDescriptionSecond.setText(word.getSecondDescription());
@@ -166,12 +166,13 @@ public class FragmentWordEdit extends Fragment implements View.OnClickListener {
 
         addNew.setOnClickListener(v -> {
             save();
+            clear();
             if (mCallback != null) mCallback.actionPerformed(null, NEW);
         });
     }
 
     private void clear() {
-        wordKey = null;
+        wordKey = getString(R.string.TAG_new_word);
         tWord.setText("");
         tDescriptionFirst.setText("");
         tDescriptionSecond.setText("");
@@ -186,12 +187,12 @@ public class FragmentWordEdit extends Fragment implements View.OnClickListener {
 
             ContentResolver cr = mContext.getContentResolver();
             if (wordKey == null || wordKey.equals(getString(R.string.TAG_new_word))) {
-                cr.insert(WordsContentProvider.CONTENT_URI, Adapter.getContentValues(word));
+                cr.insert(WordsContentProvider.CONTENT_URI, CursorAdapter.getContentValues(word));
             } else if (wordKey.equals(word.getWord())) {
-                cr.update(WordsContentProvider.CONTENT_URI, Adapter.getContentValues(word), Columns.WORD_ID + " = ?", new String[]{wordKey});
+                cr.update(WordsContentProvider.CONTENT_URI, CursorAdapter.getContentValues(word), Columns.WORD_ID + " = ?", new String[]{wordKey});
             } else {
                 cr.delete(WordsContentProvider.CONTENT_URI, Columns.WORD_ID + " = ?", new String[]{wordKey});
-                cr.insert(WordsContentProvider.CONTENT_URI, Adapter.getContentValues(word));
+                cr.insert(WordsContentProvider.CONTENT_URI, CursorAdapter.getContentValues(word));
             }
             wordKey = word.getWord();
             return true;

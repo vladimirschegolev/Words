@@ -16,10 +16,10 @@
             android:id="@+id/menu_preference"
             android:icon="@android:drawable/ic_menu_preferences"
             android:title="@string/settings" />
-        <item
-            android:id="@+id/menu_reader"
-            android:icon="@android:drawable/ic_input_get"
-            android:title="@string/reader" />
+        <!--<item-->
+            <!--android:id="@+id/menu_reader"-->
+            <!--android:icon="@android:drawable/ic_input_get"-->
+            <!--android:title="@string/reader" />-->
     </group>
 
 </menu>

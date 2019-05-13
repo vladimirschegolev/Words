@@ -1,14 +1,27 @@
 <resources>
-
-    <!-- Base application theme. -->
-
-
-    <style name="NoActionBar" parent="Theme.AppCompat.NoActionBar">
+    <style name="DarkTheme" parent="Theme.AppCompat.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
+        <item name="button_color">@color/button_color_dark</item>
+        <item name="background_solid">@color/background_solid_dark</item>
+        <item name="background_solid2">@color/background_solid2_dark</item>
+        <item name="gradient_start">@color/gradient_start_dark</item>
+        <item name="gradient_end">@color/gradient_end_dark</item>
+        <item name="toolbar_color">@color/toolbar_color_dark</item>
+        <item name="back_color_right">@color/back_color_right_dark</item>
+        <item name="back_color_wrong">@color/back_color_wrong_dark</item>
     </style>
 
-    <style name="AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
-
-    <style name="PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+    <style name="LightTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="button_color">@color/button_color_light</item>
+        <item name="background_solid">@color/background_solid_light</item>
+        <item name="background_solid2">@color/background_solid2_light</item>
+        <item name="gradient_start">@color/gradient_start_light</item>
+        <item name="gradient_end">@color/gradient_end_light</item>
+        <item name="toolbar_color">@color/toolbar_color_light</item>
+        <item name="back_color_right">@color/back_color_right_light</item>
+        <item name="back_color_wrong">@color/back_color_wrong_light</item>
+    </style>
 </resources>
